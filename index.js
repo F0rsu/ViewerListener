@@ -44,16 +44,36 @@ setInterval(() => {
 
 // Faktoja tai juttuja voittajille
 const FUN_FACTS = [
-  "Oon pelannut tätä peliä syntymästä asti.",
-  "Mun salaisuus on raaka muna ja chilikastike.",
-  "Käytän aina samaa alushousua, se tuo onnea.",
-  "Likaiset kollarit.",
-  "Vedän aina ennen matsia 500 punnerrusta.",
-  "Mä oon kato datanomi.",
-  "Oon treenannut joka päivä vuodesta 1999 asti.",
-  "Vuosihaasteen psyykkiset ongelmat tekivät minusta vahvemman.",
-  "Penispumppu on mun paras kaveri.",
-  "Pippelin koko on tärkeämpi kuin taito."
+    "Oon pelannut tätä peliä syntymästä asti.",
+    "Pillunsyönti",
+    "Mun salaisuus on raaka muna ja chilikastike.",
+    "Nukuin viime yön autotallissa jotta tuuri kääntyisi.",
+    "Oon kattonut kaikki streamit VHS:llä taaksepäin.",
+    "Salaisuus on yksinkertainen: En koskaan häviä.",
+    "Joka kerta kun kaadun, nousen kaksi kertaa vahvempana.",
+    "Mun taidot tulee huoltomiehen pumpunkorjauskirjasta.",
+    "Vedän aina ennen matsia 500 punnerrusta.",
+    "Käytän aina samaa alushousua, se tuo onnea.",
+    "Oon voittanut paskimman katsojan SM-kisat kolme kertaa putkeen.",
+    "Likaiset kollarit",
+    "Kusettaminen",
+    "Finnrunss jallut",
+    "Presidentin juominen",
+    "Metsämiljoonilla kaiken riggaaminen",
+    "!sr https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "Oon oppinut elämään sekä voittamaan ilman pyörätuolia",
+    "Oon treenannut joka päivä vuodesta 1999 asti.",
+    "Penispumppu on mun paras kaveri.",
+    "Eteen ottaa aina, kun joku sanoo että en voi tehdä jotain.",
+    "Vuosihaasteen aiheuttamat psyykkiset ongelmat ovat tehneet minusta vahvemman.",
+    "Auf der Heide blüht ein kleines Blümelein.",
+    "Narkinsonin vihreä rauhoittaja",
+    "Krooninen valehtelu a la metsämiljonääri",
+    "Mallon varvas siellä mihi se ei kuulu",
+    "Jatkuva GAMBA",
+    "Pippelin koko on tärkeämpi kuin taito",
+    "Mä oon kato datanomi",
+    "Jatkuvat Erika-harhat"
 ];
 
 app.get('/winner', (req, res) => {
