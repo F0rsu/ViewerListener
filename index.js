@@ -1,6 +1,7 @@
 const tmi = require('tmi.js');
 const express = require('express');
 require('dotenv').config();
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,6 +11,11 @@ const BOT_USERNAME = process.env.BOT_USERNAME;
 const TMI_OAUTH_TOKEN = process.env.TMI_OAUTH_TOKEN;
 
 const activeUsers = new Map(); // { username: timestamp }
+
+if (!CHANNEL || !BOT_USERNAME || !TMI_OAUTH_TOKEN) {
+  console.error("Twitch-kanavan, botin käyttäjätunnuksen ja TMI OAuth-tokenin tulee olla määriteltynä ympäristömuuttujissa.");
+  process.exit(1);
+}
 
 const client = new tmi.Client({
   options: { debug: true },
@@ -43,38 +49,21 @@ setInterval(() => {
 }, 60 * 1000);
 
 // Faktoja tai juttuja voittajille
-const FUN_FACTS = [
-    "Oon pelannut tätä peliä syntymästä asti.",
-    "Pillunsyönti",
-    "Mun salaisuus on raaka muna ja chilikastike.",
-    "Nukuin viime yön autotallissa jotta tuuri kääntyisi.",
-    "Oon kattonut kaikki streamit VHS:llä taaksepäin.",
-    "Salaisuus on yksinkertainen: En koskaan häviä.",
-    "Joka kerta kun kaadun, nousen kaksi kertaa vahvempana.",
-    "Mun taidot tulee huoltomiehen pumpunkorjauskirjasta.",
-    "Vedän aina ennen matsia 500 punnerrusta.",
-    "Käytän aina samaa alushousua, se tuo onnea.",
-    "Oon voittanut paskimman katsojan SM-kisat kolme kertaa putkeen.",
-    "Likaiset kollarit",
-    "Kusettaminen",
-    "Finnrunss jallut",
-    "Presidentin juominen",
-    "Metsämiljoonilla kaiken riggaaminen",
-    "!sr https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    "Oon oppinut elämään sekä voittamaan ilman pyörätuolia",
-    "Oon treenannut joka päivä vuodesta 1999 asti.",
-    "Penispumppu on mun paras kaveri.",
-    "Eteen ottaa aina, kun joku sanoo että en voi tehdä jotain.",
-    "Vuosihaasteen aiheuttamat psyykkiset ongelmat ovat tehneet minusta vahvemman.",
-    "Auf der Heide blüht ein kleines Blümelein.",
-    "Narkinsonin vihreä rauhoittaja",
-    "Krooninen valehtelu a la metsämiljonääri",
-    "Mallon varvas siellä mihi se ei kuulu",
-    "Jatkuva GAMBA",
-    "Pippelin koko on tärkeämpi kuin taito",
-    "Mä oon kato datanomi",
-    "Jatkuvat Erika-harhat"
-];
+let FUN_FACTS = [];
+try {
+  FUN_FACTS = JSON.parse(fs.readFileSync('./frases.json', 'utf8'));
+  console.log('Yhteensä lauseita:', FUN_FACTS.length);
+} catch (error) {
+  console.error('Virhe frases.json lataamisessa:', error);
+  FUN_FACTS = ['Oletusviesti: Salaisuus on harjoittelu!'];
+}
+
+
+console.log('Ensimmäinen lause:', FUN_FACTS[0]);
+console.log('Viimeinen lause:', FUN_FACTS[FUN_FACTS.length - 1]);
+console.log('Yhteensä lauseita:', FUN_FACTS.length);
+
+
 
 app.get('/winner', (req, res) => {
   const users = [...activeUsers.keys()];
@@ -85,7 +74,9 @@ app.get('/winner', (req, res) => {
   const randomUser = users[Math.floor(Math.random() * users.length)];
   const randomFact = FUN_FACTS[Math.floor(Math.random() * FUN_FACTS.length)];
 
-  const message = `TERVETULOA paskimman katsojan SM-kisoihin! Tänää on ollu erittäin hyvä kuhina. Voittaja on: ${randomUser}. Mikä on voittonne salaisuus? ${randomFact} Jaaha, takaisin yläkertaan.`;
+  const message = `TERVETULOA paskimman katsojan SM-kisoihin! Tänää on ollu erittäin hyvä kuhina ja taso on jälleen napsua korkeempi mitä viimeksi. Katsotaan voittaja... Voittaja on: ${randomUser}.  Kysyn teiltä mikä on voittonne salaisuus?  ${randomFact}    Jaaha, takaisin yläkertaan.`;
+
+
 
   res.send(message);
 });
