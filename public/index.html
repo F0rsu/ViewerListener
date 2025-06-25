@@ -26,9 +26,10 @@
             <h1>🏆 Twitch Winner Bot</h1>
             <p>Seuraa chat-aktiivisuutta ja arpoo voittajia <strong>"paskimman katsojan SM-kisoihin"</strong> hauskoilla selityksillä!</p>
             <div class="cta-buttons">
-                <button class="btn btn-primary" onclick="tryDemo()">
+                <!-- MUUTETTU OSA -->
+                <a href="#demo" class="btn btn-primary" id="cta-kokeile-nyt">
                     🎮 Kokeile nyt
-                </button>
+                </a>
                 <a href="#setup" class="btn btn-secondary">
                     📚 Asennusohjeet
                 </a>
@@ -36,6 +37,7 @@
         </div>
     </section>
 
+    <!-- ... (muu sisältö pysyy samana) ... -->
     <section id="features" class="features">
         <div class="container">
             <h2>✨ Ominaisuudet</h2>
@@ -166,7 +168,7 @@ npm start
                 <a href="https://dev.twitch.tv" target="_blank">Twitch API</a>
                 <a href="https://twitchapps.com/tmi/" target="_blank">TMI OAuth</a>
             </div>
-            <p>&copy; 2025 Twitch Winner Bot. MIT License - käytä vapaasti omiin projekteihin!</p>
+            <p>© 2025 Twitch Winner Bot. MIT License - käytä vapaasti omiin projekteihin!</p>
         </div>
     </footer>
 
@@ -193,7 +195,6 @@ npm start
         function tryDemo() {
             const output = document.getElementById('demoOutput');
             
-            // Show loading
             output.innerHTML = '<div class="loading"></div> Arvotaan voittajaa...';
             
             setTimeout(() => {
@@ -205,6 +206,15 @@ npm start
                 output.innerHTML = message;
             }, 2000);
         }
+
+        // LISÄTTY OSA
+        // Yhdistetään "Kokeile nyt" -nappi demo-toimintoon ja rullaukseen
+        document.getElementById('cta-kokeile-nyt').addEventListener('click', function() {
+            // Suoritetaan demo-funktio, kun nappia klikataan.
+            // Sulava rullaus tapahtuu automaattisesti, koska nappi on nyt <a>-linkki,
+            // ja sinulla on jo koodi, joka hoitaa sen.
+            tryDemo();
+        });
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
