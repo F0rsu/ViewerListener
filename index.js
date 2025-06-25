@@ -2,15 +2,21 @@ const tmi = require('tmi.js');
 const express = require('express');
 require('dotenv').config();
 const fs = require('fs');
+const path = require('path'); 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 const CHANNEL = (process.env.TWITCH_CHANNEL || '').toLowerCase();
 const BOT_USERNAME = process.env.BOT_USERNAME;
 const TMI_OAUTH_TOKEN = process.env.TMI_OAUTH_TOKEN;
 
 const activeUsers = new Map(); // { username: timestamp }
+
+
 
 if (!CHANNEL || !BOT_USERNAME || !TMI_OAUTH_TOKEN) {
   console.error("Twitch-kanavan, botin käyttäjätunnuksen ja TMI OAuth-tokenin tulee olla määriteltynä ympäristömuuttujissa.");
@@ -61,7 +67,7 @@ try {
 
 console.log('Ensimmäinen lause:', FUN_FACTS[0]);
 console.log('Viimeinen lause:', FUN_FACTS[FUN_FACTS.length - 1]);
-console.log('Yhteensä lauseita:', FUN_FACTS.length);
+
 
 
 
