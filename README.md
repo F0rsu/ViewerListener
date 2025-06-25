@@ -1,4 +1,4 @@
-# 🏆 Twitch Winner Bot
+# 🏆 ViewerListener
 
 Twitch-botti, joka seuraa chat-aktiivisuutta ja arpoo voittajia **"paskimman katsojan SM-kisoihin"** hauskoilla selityksillä.
 
