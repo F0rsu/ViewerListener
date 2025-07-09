@@ -57,7 +57,22 @@ setInterval(() => {
 // Faktoja tai juttuja voittajille
 let FUN_FACTS = [];
 try {
-  FUN_FACTS = JSON.parse(fs.readFileSync('./frases.json', 'utf8'));
+  // Yritä ensin lukea Renderin secret filesin sijaintia; jos ei löydy, lue lokaalia polkua  
+  const secretFilePath = '/etc/secrets/frases.json';
+  const localFilePath = './frases.json';
+  
+  let filePath;
+  if (fs.existsSync(secretFilePath)) {
+    filePath = secretFilePath;
+    console.log('Ladataan frases.json Renderin secret files -kansiosta');
+  } else if (fs.existsSync(localFilePath)) {
+    filePath = localFilePath;
+    console.log('Ladataan frases.json paikallisesta tiedostosta');
+  } else {
+    throw new Error('frases.json ei löytynyt');
+  }
+  
+  FUN_FACTS = JSON.parse(fs.readFileSync(filePath, 'utf8'));
   console.log('Yhteensä lauseita:', FUN_FACTS.length);
 } catch (error) {
   console.error('Virhe frases.json lataamisessa:', error);
@@ -80,7 +95,7 @@ app.get('/winner', (req, res) => {
   const randomUser = users[Math.floor(Math.random() * users.length)];
   const randomFact = FUN_FACTS[Math.floor(Math.random() * FUN_FACTS.length)];
 
-  const message = `TERVETULOA paskimman katsojan SM-kisoihin! Tänää on ollu erittäin hyvä kuhina ja taso on jälleen napsua korkeempi mitä viimeksi. Katsotaan voittaja... Voittaja on: ${randomUser}.  Kysyn teiltä mikä on voittonne salaisuus?  ${randomFact}    Jaaha, takaisin yläkertaan.`;
+  const message = `TERVETULOA paskimman katsojan SM-kisoihin! Tänään on ollu erittäin hyvä kuhina ja taso on jälleen napsua korkeempi mitä viimeksi. Katsotaan voittaja... Voittaja on: ${randomUser}.  Kysyn teiltä mikä on voittonne salaisuus?  ${randomFact}    Jaaha, takaisin yläkertaan.`;
 
 
 
