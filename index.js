@@ -61,6 +61,10 @@ try {
   const secretFilePath = '/etc/secrets/frases.json';
   const localFilePath = './frases.json';
   
+  console.log('Tarkistetaan tiedostojen olemassaolo...');
+  console.log('Secret file path:', secretFilePath, 'exists:', fs.existsSync(secretFilePath));
+  console.log('Local file path:', localFilePath, 'exists:', fs.existsSync(localFilePath));
+  
   let filePath;
   if (fs.existsSync(secretFilePath)) {
     filePath = secretFilePath;
@@ -69,13 +73,20 @@ try {
     filePath = localFilePath;
     console.log('Ladataan frases.json paikallisesta tiedostosta');
   } else {
-    throw new Error('frases.json ei löytynyt');
+    console.error('Molemmat tiedostopolut eivät löydy:');
+    console.error('- Secret file:', secretFilePath);
+    console.error('- Local file:', localFilePath);
+    throw new Error('frases.json ei löytynyt mistään sijainnista');
   }
   
-  FUN_FACTS = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  const fileContent = fs.readFileSync(filePath, 'utf8');
+  console.log('Tiedosto luettu, sisältö pituus:', fileContent.length, 'merkkiä');
+  
+  FUN_FACTS = JSON.parse(fileContent);
   console.log('Yhteensä lauseita:', FUN_FACTS.length);
 } catch (error) {
-  console.error('Virhe frases.json lataamisessa:', error);
+  console.error('Virhe frases.json lataamisessa:', error.message);
+  console.error('Täydellinen virhe:', error);
   FUN_FACTS = ['Oletusviesti: Salaisuus on harjoittelu!'];
 }
 
@@ -97,9 +108,25 @@ app.get('/winner', (req, res) => {
 
   const message = `TERVETULOA paskimman katsojan SM-kisoihin! Tänään on ollu erittäin hyvä kuhina ja taso on jälleen napsua korkeempi mitä viimeksi. Katsotaan voittaja... Voittaja on: ${randomUser}.  Kysyn teiltä mikä on voittonne salaisuus?  ${randomFact}    Jaaha, takaisin yläkertaan.`;
 
-
-
   res.send(message);
+});
+
+// Debug endpoint to check file status
+app.get('/debug/files', (req, res) => {
+  const secretFilePath = '/etc/secrets/frases.json';
+  const localFilePath = './frases.json';
+  
+  const debugInfo = {
+    secretFileExists: fs.existsSync(secretFilePath),
+    localFileExists: fs.existsSync(localFilePath),
+    secretFilePath: secretFilePath,
+    localFilePath: localFilePath,
+    funFactsLoaded: FUN_FACTS.length,
+    funFactsSample: FUN_FACTS.slice(0, 3), // First 3 items
+    isDefaultMessage: FUN_FACTS.length === 1 && FUN_FACTS[0] === 'Oletusviesti: Salaisuus on harjoittelu!'
+  };
+  
+  res.json(debugInfo);
 });
 
 app.listen(PORT, () => {
