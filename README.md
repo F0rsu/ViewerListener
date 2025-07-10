@@ -41,7 +41,6 @@ npm install
 BOT_USERNAME=your_twitch_bot_username
 TMI_OAUTH_TOKEN=oauth:your_twitch_oauth_token
 TWITCH_CHANNEL=your_channel_name
-NODE_ENV=development
 PORT=3000
 ```
 
@@ -60,9 +59,45 @@ PORT=3000
 
 ### 4. Hanki Twitch OAuth Token
 
-- Mene: [https://twitchapps.com/tmi/](https://twitchapps.com/tmi/)
-- Kirjaudu Twitch-tilillä
-- Kopioi token (muotoa `oauth:...`)
+Twitch API:n kanssa kommunikointiin tarvitset OAuth-tokenin. Tokenin hankkimiseen on useita reittejä käyttötarkoituksesta riippuen.
+
+#### A. Tokenin hankkiminen kolmannen osapuolen sivuston kautta
+
+Tämä on nopein tapa hankkia käyttäjätoken tiettyjä tarkoituksia varten, kuten chattiin liittymiseen.
+* Mene esimerkiksi: i [https://twitchtokengenerator.com/](https://twitchtokengenerator.com/)
+* Kirjaudu sisään Twitch-tililläsi.
+* Kopioi token (muotoa `oauth:...`). Tämä on käyttäjätoken tietyillä scoppeilla.
+
+#### B. Twitch API:n Client Credentials Flow (Sovelluskohtainen token) 
+
+Tätä käytetään, kun sovelluksesi tarvitsee pääsyn julkisiin tietoihin ilman käyttäjän kirjautumista
+* **Käyttötarkoitus:** Sovelluskohtainen autentikointi (ei käyttäjää mukana)
+* **Hyöty:** Saa "app access token" -tokenin.
+* **Rajoitukset:** Pääsee käsiksi vain julkiseen dataan. Ei vaadi käyttäjäoikeuksia/scopeja Hyvä esimerkiksi pelitietojen tai julkisten käyttäjäprofiilien hakemiseen.
+
+* **Prosessi:** Yhden API-kutsun prosessi.
+  ```bash
+    curl -X POST 'https://id.twitch.tv/oauth2/token' \
+        -d client_id=YOUR_CLIENT_ID \
+        -d client_secret=YOUR_CLIENT_SECRET \
+        -d grant_type=client_credentials
+    ```
+   
+
+  ```Powershell
+
+    Invoke-RestMethod -Uri 'https://id.twitch.tv/oauth2/token' `
+    -Method POST `
+    -Body @{
+        client_id = 'YOUR_CLIENT_ID'
+        client_secret = 'YOUR_CLIENT_SECRET'
+        grant_type = 'client_credentials'
+       }
+ *Huom:* Korvaa `YOUR_CLIENT_ID` ja `YOUR_CLIENT_SECRET` omilla Twitch-sovelluksesi tunnuksilla.
+
+
+
+
 
 ### 5. Käynnistä lokaalisti
 
@@ -94,10 +129,10 @@ git push origin main
 BOT_USERNAME=your_bot_username
 TMI_OAUTH_TOKEN=oauth:your_oauth_token
 TWITCH_CHANNEL=your_channel_name
-NODE_ENV=production
+
 ```
 
-📁 **HUOM!** Varmista, että `frases.json` on mukana repositoryssä.
+📁 **HUOM!** Varmista, että `frases.json` on mukana repositoryssä tai erikseen renderin secret filesissa
 
 ---
 

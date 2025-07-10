@@ -26,7 +26,7 @@
             <h1>🏆 Twitch Winner Bot</h1>
             <p>Seuraa chat-aktiivisuutta ja arpoo voittajia <strong>"paskimman katsojan SM-kisoihin"</strong> hauskoilla selityksillä!</p>
             <div class="cta-buttons">
-                <!-- MUUTETTU OSA -->
+                
                 <a href="#demo" class="btn btn-primary" id="cta-kokeile-nyt">
                     🎮 Kokeile nyt
                 </a>
@@ -37,7 +37,6 @@
         </div>
     </section>
 
-    <!-- ... (muu sisältö pysyy samana) ... -->
     <section id="features" class="features">
         <div class="container">
             <h2>✨ Ominaisuudet</h2>
@@ -50,12 +49,12 @@
                 <div class="feature-card">
                     <div class="feature-icon">🎲</div>
                     <h3>Satunnaiset voittajat</h3>
-                    <p>Arpoo reilusti satunnaisen voittajan kaikista aktiivisista käyttäjistä hauskoilla "voiton salaisuuksilla".</p>
+                    <p>Arpoo satunnaisen voittajan kaikista aktiivisista käyttäjistä ja liittää voittajalle hauskan "voiton salaisuuden".</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">😂</div>
-                    <h3>Hauskat fraasit</h3>
-                    <p>Muokattavat hauskat fraasit frases.json-tiedostossa. Lisää omia suosikkejasi milloin haluat!</p>
+                    <h3>"Hauskat fraasit"</h3>
+                    <p>Muokattavat hauskat fraasit erikseen frases.json-tiedostossa. Tiedoston sisältö muokattavissa render.com-palvelun secret files sijainnissa</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🚀</div>
@@ -136,17 +135,34 @@ npm install
                     <div class="feature-icon">2️⃣</div>
                     <h3>Luo .env-tiedosto</h3>
                     <div class="code-block">
-BOT_USERNAME=your_twitch_bot_username
-TMI_OAUTH_TOKEN=oauth:your_oauth_token
-TWITCH_CHANNEL=your_channel_name
-NODE_ENV=development
-PORT=3000
-                    </div>
+BOT_USERNAME=your_twitch_bot_username<br>
+TMI_OAUTH_TOKEN=oauth:your_oauth_token<br>
+TWITCH_CHANNEL=your_channel_name<br>
+NODE_ENV=development<br>
+PORT=3000<br>
+<small>
+  Huom! frases.json-tiedoston sisältöä hallitaan Render.com-palvelun Secret Files -toiminnon kautta, eikä sitä tarvitse lisätä tähän tiedostoon.
+</small>
+           </div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">3️⃣</div>
                     <h3>Hanki OAuth Token</h3>
-                    <p>Mene osoitteeseen <a href="https://twitchapps.com/tmi/" target="_blank" style="color: #a855f7;">twitchapps.com/tmi</a>, kirjaudu Twitch-tilillä ja kopioi token.</p>
+                    <p><strong>A. Kolmannen osapuolen kautta:</strong><br>
+                    Mene esimerkiksi <a href="https://twitchtokengenerator.com/" target="_blank" style="color: #a855f7;">twitchtokengenerator.com</a>, kirjaudu Twitch-tililläsi ja kopioi token (muotoa <code>oauth:...</code>).</p>
+                    <p><strong>B. Virallinen Twitch API -tapa:</strong><br>
+                    Voit luoda "app access tokenin" seuraavalla komennolla (korvaa <code>YOUR_CLIENT_ID</code> ja <code>YOUR_CLIENT_SECRET</code> omilla arvoillasi):
+                    <pre class="wide-pre">
+                    curl -X POST 'https://id.twitch.tv/oauth2/token' \
+                    -d client_id=YOUR_CLIENT_ID \
+                    -d client_secret=YOUR_CLIENT_SECRET \
+                    -d grant_type=client_credentials
+                        </pre>
+                    <span style="font-size:0.95em; color:#aaa;">
+  (Voit käyttää myös PowerShelliä Windowsilla. Katso 
+  <a href="https://github.com/F0rsu/ViewerListener/blob/main/README.md" target="_blank" style="color:#a855f7; text-decoration:underline;">README.md</a>.)
+</span>
+                    </p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">4️⃣</div>
@@ -166,14 +182,14 @@ npm start
                 <a href="https://github.com/F0rsu/ViewerListener" target="_blank">GitHub</a>
                 <a href="https://render.com" target="_blank">Render.com</a>
                 <a href="https://dev.twitch.tv" target="_blank">Twitch API</a>
-                <a href="https://twitchapps.com/tmi/" target="_blank">TMI OAuth</a>
+                <a href="https://twitchtokengenerator.com" target="_blank">Twitch Token Generator </a>
             </div>
             <p>© 2025 Twitch Winner Bot. MIT License - käytä vapaasti omiin projekteihin!</p>
         </div>
     </footer>
 
     <script>
-        // Demo functionality
+        // Demo toiminnallisuudet
         const demoUsers = [
             'pelaaja123', 'streamifani', 'chattikissa', 'proplayer99', 'twitchkatsoja',
             'gamerboi', 'mememeister', 'finnstreamer', 'casualgamer', 'elitesniper'
@@ -207,16 +223,15 @@ npm start
             }, 2000);
         }
 
-        // LISÄTTY OSA
+   
         // Yhdistetään "Kokeile nyt" -nappi demo-toimintoon ja rullaukseen
         document.getElementById('cta-kokeile-nyt').addEventListener('click', function() {
             // Suoritetaan demo-funktio, kun nappia klikataan.
-            // Sulava rullaus tapahtuu automaattisesti, koska nappi on nyt <a>-linkki,
-            // ja sinulla on jo koodi, joka hoitaa sen.
+            
             tryDemo();
         });
 
-        // Smooth scrolling for navigation links
+        // Sulava rullaus navigaatio linkeille
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -230,7 +245,7 @@ npm start
             });
         });
 
-        // Add some interactive hover effects
+        //  lisää interaktiivisia hover efektejä
         document.querySelectorAll('.feature-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-10px) scale(1.02)';

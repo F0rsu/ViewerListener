@@ -402,3 +402,32 @@ footer {
     }
 }
 
+.wide-pre {
+  font-size: 0.95em;
+  background: #18181b;
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-top: 6px;
+  width: 100%;              /* Take full width of parent */
+  box-sizing: border-box;   /* Includes padding in width */
+  overflow-x: auto;         /* Scroll if too wide */
+  display: block;
+  white-space: pre;         /* Preserve formatting */
+}
+
+.code-block, .wide-pre, pre, code {
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+  white-space: pre; /* preserves formatting */
+  word-break: break-all; /* breaks long words if needed */
+  /* Optional: for better appearance */
+  font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+}
+
+.feature-card {
+  overflow: hidden; /* prevents content from spilling out */
+}
+
+

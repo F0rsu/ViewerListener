@@ -111,23 +111,8 @@ app.get('/winner', (req, res) => {
   res.send(message);
 });
 
-// Debug endpoint to check file status
-app.get('/debug/files', (req, res) => {
-  const secretFilePath = '/etc/secrets/frases.json';
-  const localFilePath = './frases.json';
-  
-  const debugInfo = {
-    secretFileExists: fs.existsSync(secretFilePath),
-    localFileExists: fs.existsSync(localFilePath),
-    secretFilePath: secretFilePath,
-    localFilePath: localFilePath,
-    funFactsLoaded: FUN_FACTS.length,
-    funFactsSample: FUN_FACTS.slice(0, 3), // First 3 items
-    isDefaultMessage: FUN_FACTS.length === 1 && FUN_FACTS[0] === 'Oletusviesti: Salaisuus on harjoittelu!'
-  };
-  
-  res.json(debugInfo);
-});
+// Rekisteröi debugRoutes.js tiedoston reitit
+require('./debugRoutes')(app);
 
 app.listen(PORT, () => {
   console.log(`Serveri kuuntelee portissa ${PORT}`);
